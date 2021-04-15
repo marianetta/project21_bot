@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
 
 get_ipython().system('pip install pyTelegramBotAPI')
 import telebot
@@ -104,10 +99,5 @@ def callback_worker(call):
      
             
 bot.polling()
-
-
-# In[ ]:
-
-
 
 
