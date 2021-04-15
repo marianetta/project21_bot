@@ -1,5 +1,4 @@
-
-get_ipython().system('pip install pyTelegramBotAPI')
+pip install pyTelegramBotAPI
 import telebot
 
 bot = telebot.TeleBot('1751134716:AAHHDwQ1SW5gTSunprNygu-Q7EQh4KSesEY')
