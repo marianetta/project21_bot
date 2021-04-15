@@ -1,8 +1,7 @@
-pip install pyTelegramBotAPI
 import telebot
+from telebot import types
 
 bot = telebot.TeleBot('1751134716:AAHHDwQ1SW5gTSunprNygu-Q7EQh4KSesEY')
-from telebot import types
 keyboard = telebot.types.InlineKeyboardMarkup()
 key_memes = telebot.types.InlineKeyboardButton(text='Мемы', callback_data='memes')
 keyboard.add(key_memes)
@@ -33,11 +32,6 @@ def callback_worker(call):
     elif call.data == 'organisation':
         bot.send_message(call.message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле. 
 Выберите верный вариант ответа или введите слово.''')
-        
-        
-        
-        
-        
         keyboard_org = types.ReplyKeyboardMarkup()
         key_var1 = types.KeyboardButton("фонетика")
         key_var2 = types.KeyboardButton("социолингвистика")
@@ -70,21 +64,15 @@ def callback_worker(call):
                 bot.send_message(org1.chat.id, "Как зовут Ландера?", reply_markup=markup)
                 bot.register_next_step_handler(r, callback_worker_org2)
 
-        
         r1 = bot.send_message(call.message.chat.id, 'Какие семинары загадочно исчезают из РУЗа?', reply_markup=keyboard_org)
         bot.register_next_step_handler(r1, callback_worker_org)
-        
         
         def callback_worker_org3(org3):
             if org3.text == '4':
                 bot.send_message(org3.chat.id, 'Да!')
             else:
                 bot.send_message(org3.chat.id, 'Нет(')
-                
-            
-               
-        
-        
+                 
         def callback_worker_org2(org2):
             if org2.text == 'Юрий Александрович':
                 r2 = bot.send_message(org2.chat.id, 'Верно!')
@@ -95,8 +83,5 @@ def callback_worker(call):
                 bot.send_message(org2.chat.id, "На каком этаже находится учебный офис ФиКЛ? Введите число")
                 bot.register_next_step_handler(r2, callback_worker_org3)
         
-     
-            
+        
 bot.polling()
-
-
