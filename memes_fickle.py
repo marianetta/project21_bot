@@ -1,7 +1,7 @@
 import telebot
 from requests import get  # новая штука
 
-bot = telebot.TeleBot('1606668575:AAFLv5Vh3_2EURVsVzaH3hYEVDCja8lgOmU')  # личный бот!!
+bot = telebot.TeleBot('1751134716:AAHHDwQ1SW5gTSunprNygu-Q7EQh4KSesEY')
 
 keyboard = telebot.types.InlineKeyboardMarkup()
 key_memes = telebot.types.InlineKeyboardButton(text='Мемы', callback_data='memes')
