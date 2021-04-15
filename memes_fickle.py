@@ -24,7 +24,7 @@ def send_text(message):
 
 
 @bot.callback_query_handler(
-    func=lambda call: call.data == 'memes' or call.data == 'quotes' or call.data == 'organisation')
+    func=lambda call: call.data == 'memes' or call.data == 'quotes' or call.data == 'organisation')  # добавить в основной код !!
 def callback_worker(call):
     if call.data == 'memes':
         bot.send_message(call.message.chat.id, '''В каждом задании этого раздела вам будет показан мем, 
@@ -80,7 +80,7 @@ def meme2(message):
     else:
         bot.send_message(message.chat.id, 'Это неверно, правильный ответ: тест по фонетике')
         bot.send_photo(message.chat.id, get(
-            'https://github.com/ioiimm/drafts/blob/main/bot/img/dobrushina.jpg?raw=true').content)  # здравствуйте, Добрушина
+            'https://github.com/ioiimm/drafts/blob/main/bot/img/dobrushina.jpg?raw=true').content)
         keyboard_memes = telebot.types.ReplyKeyboardMarkup(False, True)
         keyboard_memes.row("Добрушина, эксперимент")
         keyboard_memes.row("Зибер, тест по артикуляции")
@@ -100,7 +100,7 @@ def meme3(message):
     else:
         bot.send_message(message.chat.id, 'Это неверно, правильный ответ: Добрушина, эксперимент')
         bot.send_photo(message.chat.id, get(
-            'https://github.com/ioiimm/drafts/blob/main/bot/img/daniel.jpg?raw=true').content)  # Михаил Даниэль
+            'https://github.com/ioiimm/drafts/blob/main/bot/img/daniel.jpg?raw=true').content)
         mesg = bot.send_message(message.chat.id, "Кто на картинке? Введите имя и фамилию.")
         bot.register_next_step_handler(mesg, meme4)
 
@@ -115,7 +115,7 @@ def meme4(message):
     else:
         bot.send_message(message.chat.id, 'Это неверно, правильный ответ: Михаил Даниэль')
         bot.send_photo(message.chat.id,
-                       get('https://github.com/ioiimm/drafts/blob/main/bot/img/lms.jpg?raw=true').content)  # лмс
+                       get('https://github.com/ioiimm/drafts/blob/main/bot/img/lms.jpg?raw=true').content)
         mesg = bot.send_message(message.chat.id, "Кто / что на фото? Введите одно слово:")
         bot.register_next_step_handler(mesg, meme5)
 
@@ -145,7 +145,7 @@ def meme6(message):
     else:
         bot.send_message(message.chat.id, 'Это неверно, правильный ответ: каузация или каузацию')
         bot.send_photo(message.chat.id,
-                       get('https://github.com/ioiimm/drafts/blob/main/bot/img/stenin.jpg?raw=true').content)  # Стенин
+                       get('https://github.com/ioiimm/drafts/blob/main/bot/img/stenin.jpg?raw=true').content)
         mesg = bot.send_message(message.chat.id, "Кто на фото? Введите фамилию:")
         bot.register_next_step_handler(mesg, meme6_reply)
 
