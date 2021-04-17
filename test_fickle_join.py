@@ -28,7 +28,7 @@ def send_text(message):
 def callback_worker(call):
     if call.data == 'memes':
         bot.send_message(call.message.chat.id, '''В каждом задании этого раздела вам будет показан мем, 
-    связанный с нашим потоком. Вам нужно будет выбрать один вариант ответа или ввести слово.''')
+связанный с нашим потоком. Вам нужно будет выбрать один вариант ответа или ввести слово.''')
         bot.send_photo(call.message.chat.id, get(
             'https://github.com/ioiimm/drafts/blob/main/bot/img/chicken.jpg?raw=true').content)  # про курицу
         mesg = bot.send_message(call.message.chat.id, 'Введите слово:')
@@ -41,7 +41,7 @@ def callback_worker(call):
         bot.register_next_step_handler(mesg, quote1)
     elif call.data == 'organisation':
         bot.send_message(call.message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле. 
-        Выберите верный вариант ответа или введите слово.''')
+Выберите верный вариант ответа или введите слово.''')
         keyboard_org = types.ReplyKeyboardMarkup(False, True)
         key_var1 = types.KeyboardButton("фонетика")
         key_var2 = types.KeyboardButton("социолингвистика")
