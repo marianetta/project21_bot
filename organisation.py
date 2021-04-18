@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
-get_ipython().system('pip install pyTelegramBotAPI')
+pip install pyTelegramBotAPI
 import telebot
 
 bot = telebot.TeleBot('1751134716:AAHHDwQ1SW5gTSunprNygu-Q7EQh4KSesEY')
@@ -39,8 +33,6 @@ def callback_worker(call):
     elif call.data == 'organisation':
         bot.send_message(call.message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле. 
 Выберите верный вариант ответа или введите слово.''')
-        
-        
         
         
         
@@ -140,9 +132,7 @@ def callback_worker(call):
                 bot.send_message(org3.chat.id, "Что отправляют в беседу чаще всего?", reply_markup = markup)
                 bot.register_next_step_handler(r3, callback_worker_org4)
                 
-            
-               
-        
+                   
         
         def callback_worker_org2(org2):
             if org2.text == 'Юрий Александрович':
@@ -154,13 +144,5 @@ def callback_worker(call):
                 bot.send_message(org2.chat.id, "На каком этаже находится учебный офис ФиКЛ? Введите число")
                 bot.register_next_step_handler(r2, callback_worker_org3)
         
-     
-            
+                 
 bot.polling()
-
-
-# In[ ]:
-
-
-
-
