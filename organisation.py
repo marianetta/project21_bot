@@ -115,8 +115,9 @@ def callback_worker(call):
                 itembtnc = types.KeyboardButton('фотографии Ландера')
                 itembtnd = types.KeyboardButton('лингвистические опросы')
                 itembtne = types.KeyboardButton('скрины писем из учебного офиса')
-                markup.row(itembtna, itembtnv, itembtnc) 
-                markup.row(itembtnd, itembtne)
+                markup.row(itembtna, itembtnv)
+                markup.row(itembtnc, itembtnd)
+                markup.row(itembtne)
                 bot.send_message(org3.chat.id, "Что отправляют в беседу чаще всего?", reply_markup = markup)
                 bot.register_next_step_handler(r3, callback_worker_org4)
             else:
@@ -127,8 +128,9 @@ def callback_worker(call):
                 itembtnc = types.KeyboardButton('фотографии Ландера')
                 itembtnd = types.KeyboardButton('лингвистические опросы')
                 itembtne = types.KeyboardButton('скрины писем из учебного офиса')
-                markup.row(itembtna, itembtnv, itembtnc) 
-                markup.row(itembtnd, itembtne)
+                markup.row(itembtna, itembtnv) 
+                markup.row(itembtnc, itembtnd)
+                markup.row(itembtne)
                 bot.send_message(org3.chat.id, "Что отправляют в беседу чаще всего?", reply_markup = markup)
                 bot.register_next_step_handler(r3, callback_worker_org4)
                 
