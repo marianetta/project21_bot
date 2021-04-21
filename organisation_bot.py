@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
-get_ipython().system('pip install pyTelegramBotAPI')
+!pip install pyTelegramBotAPI
 import telebot
 from requests import get
 from telebot import types
@@ -309,4 +303,3 @@ def quote3(message):
 
 
 bot.polling()
-
