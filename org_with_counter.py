@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
-get_ipython().system('pip install pyTelegramBotAPI')
+pip install pyTelegramBotAPI
 import telebot
 from requests import get
 from telebot import types
@@ -15,9 +9,6 @@ from collections import defaultdict
 scores = defaultdict(int)
 
 
-
-
-
 keyboard = telebot.types.InlineKeyboardMarkup()
 key_memes = telebot.types.InlineKeyboardButton(text='Мемы', callback_data='memes')
 keyboard.add(key_memes)
@@ -25,8 +16,6 @@ key_quotes = telebot.types.InlineKeyboardButton(text='Цитаты препод�
 keyboard.add(key_quotes)
 key_organisation = telebot.types.InlineKeyboardButton(text='Организация учебного процесса', callback_data='organisation')
 keyboard.add(key_organisation)
-
-
 
 
 @bot.message_handler(commands=['start'])
@@ -166,13 +155,4 @@ def organisation5(org5):
     text_res = "Твои баллы: " + str(scores[org5.from_user.id])
     bot.send_message(org5.chat.id, text_res)
         
-bot        
-
 bot.polling()
-
-
-# In[ ]:
-
-
-
-
