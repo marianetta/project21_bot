@@ -1,4 +1,4 @@
-!pip install pyTelegramBotAPI
+pip install pyTelegramBotAPI
 import telebot
 from requests import get
 from telebot import types
