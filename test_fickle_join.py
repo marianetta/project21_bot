@@ -43,114 +43,117 @@ def callback_worker(call):
         bot.send_message(call.message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле. 
 Выберите верный вариант ответа или введите слово.''')
 
-        keyboard_org = types.ReplyKeyboardMarkup(False, True)
+        keyboard_org = types.ReplyKeyboardMarkup(one_time_keyboard = True)
         key_var1 = types.KeyboardButton("фонетика")
         key_var2 = types.KeyboardButton("социолингвистика")
         key_var3 = types.KeyboardButton("академическое письмо")
         key_var4 = types.KeyboardButton("пары по языкам")
         keyboard_org.row(key_var1, key_var2)
         keyboard_org.row(key_var3, key_var4)
-
-        def callback_worker_org(org1):
-            if org1.text == 'фонетика':
-                r = bot.send_message(org1.chat.id, 'Верно!')
-                markup = types.ReplyKeyboardMarkup(False, True)
-                itembtna = types.KeyboardButton('Юрий Александрович')
-                itembtnv = types.KeyboardButton('Михаил Александрович')
-                itembtnc = types.KeyboardButton('Владимир Владимирович')
-                itembtnd = types.KeyboardButton('Андриан Викторович')
-                markup.row(itembtna, itembtnv)
-                markup.row(itembtnc, itembtnd)
-                bot.send_message(org1.chat.id, "Как зовут Ландера?", reply_markup=markup)
-                bot.register_next_step_handler(r, callback_worker_org2)
-            elif org1.text == 'социолингвистика' or org1.text == 'академическое письмо' or org1.text == 'пары по языкам':
-                r = bot.send_message(org1.chat.id, 'Нет( \nправильный ответ: фонетика')
-                markup = types.ReplyKeyboardMarkup(False, True)
-                itembtna = types.KeyboardButton('Юрий Александрович')
-                itembtnv = types.KeyboardButton('Михаил Александрович')
-                itembtnc = types.KeyboardButton('Владимир Владимирович')
-                itembtnd = types.KeyboardButton('Андриан Викторович')
-                markup.row(itembtna, itembtnv)
-                markup.row(itembtnc, itembtnd)
-                bot.send_message(org1.chat.id, "Как зовут Ландера?", reply_markup=markup)
-                bot.register_next_step_handler(r, callback_worker_org2)
-
-        r1 = bot.send_message(call.message.chat.id, 'Какие семинары загадочно исчезают из РУЗа?',
-                              reply_markup=keyboard_org)
-        bot.register_next_step_handler(r1, callback_worker_org)
-
-        def callback_worker_org5(org5):
-            if org5.text == "лесбистки(-ы)’20":
-                bot.send_message(org5.chat.id, "Да!")
-
-            else:
-                bot.send_message(org5.chat.id, "Нет( \nправильный ответ: лесбистки(-ы)’20")
-
-        def callback_worker_org4(org4):
-            if org4.text == 'лингвистические опросы':
-                r4 = bot.send_message(org4.chat.id, 'Да!')
-                markup = types.ReplyKeyboardMarkup(False, True)
-                itembtna = types.KeyboardButton('лингвисты 2020')
-                itembtnv = types.KeyboardButton('лесбисты(-ки)’20')
-                itembtnc = types.KeyboardButton('лингвистки’20')
-                itembtnd = types.KeyboardButton('лесбистки(-ы)’20')
-                markup.row(itembtna, itembtnv)
-                markup.row(itembtnc, itembtnd)
-                bot.send_message(org4.chat.id, "Как называется беседа потока?", reply_markup=markup)
-                bot.register_next_step_handler(r4, callback_worker_org5)
+        r = bot.send_message(call.message.chat.id, "Какие семинары загадочно исчезают из РУЗа?", reply_markup=keyboard_org)
+        bot.register_next_step_handler(r, organisation1)
 
 
-            else:
-                r4 = bot.send_message(org4.chat.id, 'Нет( \nправильный ответ: лингвистические опросы')
-                markup = types.ReplyKeyboardMarkup(False, True)
-                itembtna = types.KeyboardButton('лингвисты 2020')
-                itembtnv = types.KeyboardButton('лесбисты(-ки)’20')
-                itembtnc = types.KeyboardButton('лингвистки’20')
-                itembtnd = types.KeyboardButton('лесбистки(-ы)’20')
-                markup.row(itembtna, itembtnv)
-                markup.row(itembtnc, itembtnd)
-                bot.send_message(org4.chat.id, "Как называется беседа потока?", reply_markup=markup)
-                bot.register_next_step_handler(r4, callback_worker_org5)
+        
+        
+def organisation1(org1):
+    if org1.text == 'фонетика':
+        r = bot.send_message(org1.chat.id, 'Верно!', reply_markup=types.ReplyKeyboardRemove())
+        markup = types.ReplyKeyboardMarkup(False, True)
+        itembtna = types.KeyboardButton('Юрий Александрович')
+        itembtnv = types.KeyboardButton('Михаил Александрович')
+        itembtnc = types.KeyboardButton('Владимир Владимирович')
+        itembtnd = types.KeyboardButton('Андриан Викторович')
+        markup.row(itembtna, itembtnv)
+        markup.row(itembtnc, itembtnd)
+        r1 = bot.send_message(org1.chat.id, "Как зовут Ландера?", reply_markup=markup)
+        bot.register_next_step_handler(r1, organisation2)
+    elif org1.text == 'социолингвистика' or org1.text == 'академическое письмо' or org1.text == 'пары по языкам':
+        r = bot.send_message(org1.chat.id, 'Нет( \nправильный ответ: фонетика', reply_markup=types.ReplyKeyboardRemove())
+        markup = types.ReplyKeyboardMarkup(False, True)
+        itembtna = types.KeyboardButton('Юрий Александрович')
+        itembtnv = types.KeyboardButton('Михаил Александрович')
+        itembtnc = types.KeyboardButton('Владимир Владимирович')
+        itembtnd = types.KeyboardButton('Андриан Викторович')
+        markup.row(itembtna, itembtnv)
+        markup.row(itembtnc, itembtnd)
+        r1 = bot.send_message(org1.chat.id, "Как зовут Ландера?", reply_markup=markup)
+        bot.register_next_step_handler(r1, organisation2)
 
-        def callback_worker_org3(org3):
-            if org3.text == '4':
-                r3 = bot.send_message(org3.chat.id, 'Да!')
-                markup = types.ReplyKeyboardMarkup(False, True)
-                itembtna = types.KeyboardButton('мемы')
-                itembtnv = types.KeyboardButton('музыку')
-                itembtnc = types.KeyboardButton('фотографии Ландера')
-                itembtnd = types.KeyboardButton('лингвистические опросы')
-                itembtne = types.KeyboardButton('скрины писем из учебного офиса')
-                markup.row(itembtna, itembtnv)
-                markup.row(itembtnc, itembtnd)
-                markup.row(itembtne)
-                bot.send_message(org3.chat.id, "Что отправляют в беседу чаще всего?", reply_markup=markup)
-                bot.register_next_step_handler(r3, callback_worker_org4)
-            else:
-                r3 = bot.send_message(org3.chat.id, 'Нет( \nправильный ответ: 4')
-                markup = types.ReplyKeyboardMarkup(False, True)
-                itembtna = types.KeyboardButton('мемы')
-                itembtnv = types.KeyboardButton('музыку')
-                itembtnc = types.KeyboardButton('фотографии Ландера')
-                itembtnd = types.KeyboardButton('лингвистические опросы')
-                itembtne = types.KeyboardButton('скрины писем из учебного офиса')
-                markup.row(itembtna, itembtnv)
-                markup.row(itembtnc, itembtnd)
-                markup.row(itembtne)
-                bot.send_message(org3.chat.id, "Что отправляют в беседу чаще всего?", reply_markup=markup)
-                bot.register_next_step_handler(r3, callback_worker_org4)
+def organisation2(org2):
+    if org2.text == 'Юрий Александрович':
+        bot.send_message(org2.chat.id, 'Верно!', reply_markup=types.ReplyKeyboardRemove())
+        r2 = bot.send_message(org2.chat.id, "На каком этаже находится учебный офис ФиКЛ? Введите число")
+        bot.register_next_step_handler(r2, organisation3)
+    elif org2.text == 'Михаил Александрович' or org2.text == 'Владимир Владимирович' or org2.text == 'Андриан Викторович':
+        bot.send_message(org2.chat.id, 'Нет( \nправильный ответ: Юрий Александрович', reply_markup=types.ReplyKeyboardRemove())
+        r2 = bot.send_message(org2.chat.id, "На каком этаже находится учебный офис ФиКЛ? Введите число")
+        bot.register_next_step_handler(r2, organisation3)        
+        
+def organisation3(org3):
+    if org3.text == '4':
+        bot.send_message(org3.chat.id, 'Да!', reply_markup=types.ReplyKeyboardRemove())
+        markup = types.ReplyKeyboardMarkup(False, True)
+        itembtna = types.KeyboardButton('мемы')
+        itembtnv = types.KeyboardButton('музыку')
+        itembtnc = types.KeyboardButton('фотографии Ландера')
+        itembtnd = types.KeyboardButton('лингвистические опросы')
+        itembtne = types.KeyboardButton('скрины писем из учебного офиса')
+        markup.row(itembtna, itembtnv)
+        markup.row(itembtnc, itembtnd)
+        markup.row(itembtne)
+        r3 = bot.send_message(org3.chat.id, "Что отправляют в беседу чаще всего?", reply_markup=markup)
+        bot.register_next_step_handler(r3, organisation4)
+    else:
+        bot.send_message(org3.chat.id, 'Нет( \nправильный ответ: 4', reply_markup=types.ReplyKeyboardRemove())
+        markup = types.ReplyKeyboardMarkup(False, True)
+        itembtna = types.KeyboardButton('мемы')
+        itembtnv = types.KeyboardButton('музыку')
+        itembtnc = types.KeyboardButton('фотографии Ландера')
+        itembtnd = types.KeyboardButton('лингвистические опросы')
+        itembtne = types.KeyboardButton('скрины писем из учебного офиса')
+        markup.row(itembtna, itembtnv)
+        markup.row(itembtnc, itembtnd)
+        markup.row(itembtne)
+        r3 = bot.send_message(org3.chat.id, "Что отправляют в беседу чаще всего?", reply_markup=markup)
+        bot.register_next_step_handler(r3, organisation4)       
+                
+def organisation4(org4):
+        if org4.text == 'лингвистические опросы':
+            r4 = bot.send_message(org4.chat.id, 'Да!', reply_markup=types.ReplyKeyboardRemove())
+            markup = types.ReplyKeyboardMarkup(False, True)
+            itembtna = types.KeyboardButton('лингвисты 2020')
+            itembtnv = types.KeyboardButton('лесбисты(-ки)’20')
+            itembtnc = types.KeyboardButton('лингвистки’20')
+            itembtnd = types.KeyboardButton('лесбистки(-ы)’20')
+            markup.row(itembtna, itembtnv)
+            markup.row(itembtnc, itembtnd)
+            bot.send_message(org4.chat.id, "Как называется беседа потока?", reply_markup=markup)
+            bot.register_next_step_handler(r4, organisation5)
+        else:
+            r4 = bot.send_message(org4.chat.id, 'Нет( \nправильный ответ: лингвистические опросы', reply_markup=types.ReplyKeyboardRemove())
+            markup = types.ReplyKeyboardMarkup(selective = False)
+            itembtna = types.KeyboardButton('лингвисты 2020')
+            itembtnv = types.KeyboardButton('лесбисты(-ки)’20')
+            itembtnc = types.KeyboardButton('лингвистки’20')
+            itembtnd = types.KeyboardButton('лесбистки(-ы)’20')
+            markup.row(itembtna, itembtnv)
+            markup.row(itembtnc, itembtnd)
+            bot.send_message(org4.chat.id, "Как называется беседа потока?", reply_markup=markup)
+            bot.register_next_step_handler(r4, organisation5)   
+                        
+def organisation5(org5):
+    if org5.text == "лесбистки(-ы)’20":
+        bot.send_message(org5.chat.id, "Да!", reply_markup=types.ReplyKeyboardRemove())        
+    else:
+        bot.send_message(org5.chat.id, "Нет( \nправильный ответ: лесбистки(-ы)’20", reply_markup=types.ReplyKeyboardRemove())
 
-        def callback_worker_org2(org2):
-            if org2.text == 'Юрий Александрович':
-                r2 = bot.send_message(org2.chat.id, 'Верно!')
-                bot.send_message(org2.chat.id, "На каком этаже находится учебный офис ФиКЛ? Введите число")
-                bot.register_next_step_handler(r2, callback_worker_org3)
-            elif org2.text == 'Михаил Александрович' or org2.text == 'Владимир Владимирович' or org2.text == 'Андриан Викторович':
-                r2 = bot.send_message(org2.chat.id, 'Нет( \nправильный ответ: Юрий Александрович')
-                bot.send_message(org2.chat.id, "На каком этаже находится учебный офис ФиКЛ? Введите число")
-                bot.register_next_step_handler(r2, callback_worker_org3)
-
-
+       
+        
+        
+        
+        
+        
 @bot.message_handler(func=lambda message: True)
 def meme1(message):
     if message.text.lower() == 'курица':
