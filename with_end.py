@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
-get_ipython().system('pip install pyTelegramBotAPI')
+pip install pyTelegramBotAPI
 import telebot
 from requests import get
 from telebot import types
@@ -27,10 +21,6 @@ keyboard.add(key_organisation)
 def start_message(message):
     bot.send_message(message.chat.id, 'Привет! Выбери раздел:', reply_markup=keyboard)
     
-    
-
-
-
 
 
 @bot.callback_query_handler(
@@ -179,10 +169,7 @@ def organisation5(org5):
         bot.send_message(org5.chat.id, "Нет( \nправильный ответ: лесбистки(-ы)’20", reply_markup=types.ReplyKeyboardRemove())
 
        
-        
-        
-        
-        
+  
         
 @bot.message_handler(func=lambda message: True)
 def meme1(message):
@@ -393,10 +380,3 @@ def end_message(end_m):
     scores[end_m.from_user.id] = 0
         
 bot.polling()
-
-
-# In[ ]:
-
-
-
-
