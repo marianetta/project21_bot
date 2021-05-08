@@ -28,6 +28,7 @@ def start_message(message):
 def end_message(end_m):
     global sections, sections_lst
     text_res = "Твои баллы: " + str(scores[end_m.from_user.id]) + " \n"
+    bot.send_message(end_m.chat.id, text_res)
     perc = scores[end_m.from_user.id] / 17 * 100
     if 0 <= perc <= 29:
         text_res += "Кажется, ты не с фикла… но можешь перевестись сюда!"
