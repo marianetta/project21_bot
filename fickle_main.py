@@ -27,19 +27,18 @@ def start_message(message):
 @bot.message_handler(commands=['end'])
 def end_message(end_m):
     global sections, sections_lst
-    text_res = "Твои баллы: " + str(scores[end_m.from_user.id]) + " \n"
     perc = scores[end_m.from_user.id] / 17 * 100
     if 0 <= perc <= 29:
-        text_res += "Кажется, ты не с фикла… но можешь перевестись сюда!"
+        text_res = "Кажется, ты не с фикла… но можешь перевестись сюда!"
         bot.send_message(end_m.chat.id, text_res)
     elif 29 < perc <= 54:
-        text_res += "Наверно, ты мало ходил на пары. Ну ничего, впереди еще три года!"
+        text_res = "Наверно, ты мало ходил на пары. Ну ничего, впереди еще три года!"
         bot.send_message(end_m.chat.id, text_res)
     elif 54 < perc <= 79:
-        text_res += "Есть недочеты, но ты молодец!"
+        text_res = "Есть недочеты, но ты молодец!"
         bot.send_message(end_m.chat.id, text_res)
     elif 79 < perc <= 100:
-        text_res += "Ты настоящий фиклёнок!"
+        text_res = "Ты настоящий фиклёнок!"
         bot.send_message(end_m.chat.id, text_res)
     scores[end_m.from_user.id] = 0
     sections_lst.clear()
@@ -54,8 +53,9 @@ def send_text(message):
 @bot.callback_query_handler(
     func=lambda call: call.data == 'memes' or call.data == 'quotes' or call.data == 'organisation')
 def callback_worker(call):
+    global sections_lst
     if call.data == 'memes':
-        sections_lst.extend('Мемы')
+        sections_lst.append('Мемы')
         bot.send_message(call.message.chat.id, '''В каждом задании этого раздела вам будет показан мем, 
 связанный с нашим потоком. Вам нужно будет выбрать один вариант ответа или ввести слово.''')
         bot.send_photo(call.message.chat.id, get(
@@ -63,7 +63,7 @@ def callback_worker(call):
         mesg = bot.send_message(call.message.chat.id, 'Введите слово:')
         bot.register_next_step_handler(mesg, meme1)
     elif call.data == 'quotes':
-        sections_lst.extend('Цитаты преподавателей')
+        sections_lst.append('Цитаты преподавателей')
         bot.send_message(call.message.chat.id,
                          '''В этом разделе тебе будут показаны цитаты преподавателей. Отгадай, кому они принадлежат.''')
         mesg = bot.send_message(call.message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. '
@@ -71,7 +71,7 @@ def callback_worker(call):
 «Щенячий патруль»".''')
         bot.register_next_step_handler(mesg, quote1)
     elif call.data == 'organisation':
-        sections_lst.extend('Организация учебного процесса')
+        sections_lst.append('Организация учебного процесса')
         bot.send_message(call.message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле. 
 Выберите верный вариант ответа или введите слово.''')
 
@@ -242,7 +242,7 @@ def organisation5(org5):
 
 
 def org_next_step(message):
-    global sections
+    global sections, sections_lst
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "завершить тест":
@@ -271,6 +271,7 @@ def org_next_step(message):
 
 
 def org_next_step1(message):
+    global sections_lst
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "Цитаты преподавателей":
@@ -477,7 +478,7 @@ def meme6_reply(message):
 
 
 def meme_next_step(message):
-    global sections
+    global sections, sections_lst
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "завершить тест":
@@ -506,6 +507,7 @@ def meme_next_step(message):
 
 
 def meme_next_step1(message):
+    global sections_lst
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "Цитаты преподавателей":
@@ -631,7 +633,7 @@ def quote5(message):
 
 
 def quote3(message):
-    global sections
+    global sections, sections_lst
     if message.text == "/end":
         bot.send_message(message.chat.id, "Заканчиваем...")
         end_message(message)
@@ -676,7 +678,7 @@ def quote3(message):
 
 
 def quote_next_step(message):
-    global sections
+    global sections, sections_lst
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "завершить тест":
@@ -707,6 +709,7 @@ def quote_next_step(message):
 
 
 def quote_next_step1(message):
+    global sections_lst
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == '/end':
