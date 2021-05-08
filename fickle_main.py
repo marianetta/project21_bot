@@ -27,18 +27,19 @@ def start_message(message):
 @bot.message_handler(commands=['end'])
 def end_message(end_m):
     global sections, sections_lst
+    text_res = "Твои баллы: " + str(scores[end_m.from_user.id]) + " \n"
     perc = scores[end_m.from_user.id] / 17 * 100
     if 0 <= perc <= 29:
-        text_res = "Кажется, ты не с фикла… но можешь перевестись сюда!"
+        text_res += "Кажется, ты не с фикла… но можешь перевестись сюда!"
         bot.send_message(end_m.chat.id, text_res)
     elif 29 < perc <= 54:
-        text_res = "Наверно, ты мало ходил на пары. Ну ничего, впереди еще три года!"
+        text_res += "Наверно, ты мало ходил на пары. Ну ничего, впереди еще три года!"
         bot.send_message(end_m.chat.id, text_res)
     elif 54 < perc <= 79:
-        text_res = "Есть недочеты, но ты молодец!"
+        text_res += "Есть недочеты, но ты молодец!"
         bot.send_message(end_m.chat.id, text_res)
     elif 79 < perc <= 100:
-        text_res = "Ты настоящий фиклёнок!"
+        text_res += "Ты настоящий фиклёнок!"
         bot.send_message(end_m.chat.id, text_res)
     scores[end_m.from_user.id] = 0
     sections_lst.clear()
