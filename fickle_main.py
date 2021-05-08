@@ -27,18 +27,18 @@ def start_message(message):
 @bot.message_handler(commands=['end'])
 def end_message(end_m):
     global sections, sections_lst
-    perc = scores[end_m.from_user.id] / 15 * 100
+    perc = scores[end_m.from_user.id] / 17 * 100
     if 0 <= perc <= 29:
-        text_res = "кажется, ты не с фикла… но можешь перевестись сюда!"
+        text_res = "Кажется, ты не с фикла… но можешь перевестись сюда!"
         bot.send_message(end_m.chat.id, text_res)
     elif 29 < perc <= 54:
-        text_res = "наверно, ты мало ходил на  пары. ну ничего, впереди еще три года."
+        text_res = "Наверно, ты мало ходил на пары. Ну ничего, впереди еще три года!"
         bot.send_message(end_m.chat.id, text_res)
     elif 54 < perc <= 79:
-        text_res = "есть недочеты, но ты молодец!"
+        text_res = "Есть недочеты, но ты молодец!"
         bot.send_message(end_m.chat.id, text_res)
     elif 79 < perc <= 100:
-        text_res = "ты настоящий фиклёнок!"
+        text_res = "Ты настоящий фиклёнок!"
         bot.send_message(end_m.chat.id, text_res)
     scores[end_m.from_user.id] = 0
     sections_lst.clear()
@@ -543,11 +543,15 @@ def quote1(message):
         scores[message.from_user.id] += 1
         bot.send_message(message.chat.id,
                          'Совершенно верно! Сразу видно, что смотришь все лекции и читаешь все письма :)')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%98%D0%BD%D0%BD%D0%B0%20%D0%B2%D0%B5%D1%81%D0%B5%D0%BB%D0%B0%D1%8F.jpg?raw=true').content)  # Инна веселая
         mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
 \n"Надеюсь, скоро станет попроще".''')
         bot.register_next_step_handler(mesg, quote2)
     else:
         bot.send_message(message.chat.id, 'Ошибочка! Правильный ответ: Инна Зибер.')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%98%D0%BD%D0%BD%D0%B0%20%D0%B3%D1%80%D1%83%D1%81%D1%82%D0%BD%D0%B0%D1%8F.jpg?raw=true').content)  # Инна грустная
         mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
 \n"Надеюсь, скоро станет попроще".''')
         bot.register_next_step_handler(mesg, quote2)
@@ -563,11 +567,63 @@ def quote2(message):
         scores[message.from_user.id] += 1
         bot.send_message(message.chat.id,
                          'Совершенно верно! Сразу видно, что смотришь все лекции и читаешь все письма :)')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%9B%D0%B0%D0%BD%D0%B4%D0%B5%D1%80%20%D0%B2%D0%B5%D1%81%D0%B5%D0%BB%D1%8B%D0%B9.jpg?raw=true').content)  # Ландер веселый
+        mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
+\n"Так-так-так-так... Прум-пум-пум. Так. Пуф-пуф-пуф... Так-так-так-так. Щи-щи-щи-щу-щу... А-а-ай! Трррам-пам-пам".''')
+        bot.register_next_step_handler(mesg, quote4)
+    else:
+        bot.send_message(message.chat.id, 'Ошибочка! Правильный ответ: Юрий Ландер.')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%9B%D0%B0%D0%BD%D0%B4%D0%B5%D1%80%20%D0%B3%D1%80%D1%83%D1%81%D1%82%D0%BD%D1%8B%D0%B9.jpg?raw=true').content)  # Ландер грустный
+        mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
+\n"Так-так-так-так... Прум-пум-пум. Так. Пуф-пуф-пуф... Так-так-так-так. Щи-щи-щи-щу-щу... А-а-ай! Трррам-пам-пам".''')
+        bot.register_next_step_handler(mesg, quote4)
+
+
+def quote4(message):
+    if message.text == "/end":
+        bot.send_message(message.chat.id, "Заканчиваем...")
+        end_message(message)
+    elif message.text == '/start':
+        bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
+    elif message.text.lower() == 'александр подобряев':
+        scores[message.from_user.id] += 1
+        bot.send_message(message.chat.id,
+                         'Совершенно верно! Сразу видно, что смотришь все лекции и читаешь все письма :)')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%9F%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D1%8F%D0%B5%D0%B2%20%D0%B2%D0%B5%D1%81%D0%B5%D0%BB%D1%8B%D0%B9.jpg?raw=true').content)  # Подобряев веселый
+        mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
+\n"Мне нравится слово «актор», потому что я продался Западу".''')
+        bot.register_next_step_handler(mesg, quote5)
+    else:
+        bot.send_message(message.chat.id, 'Ошибочка! Правильный ответ: Александр Подобряев.')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%9F%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D1%8F%D0%B5%D0%B2%20%D0%B3%D1%80%D1%83%D1%81%D1%82%D0%BD%D1%8B%D0%B9.jpg?raw=true').content)  # Подобряев грустный
+        mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
+\n"Мне нравится слово «актор», потому что я продался Западу".''')
+        bot.register_next_step_handler(mesg, quote5)
+
+
+def quote5(message):
+    if message.text == "/end":
+        bot.send_message(message.chat.id, "Заканчиваем...")
+        end_message(message)
+    elif message.text == '/start':
+        bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
+    elif message.text.lower() == 'андриан влахов':
+        scores[message.from_user.id] += 1
+        bot.send_message(message.chat.id,
+                         'Совершенно верно! Сразу видно, что смотришь все лекции и читаешь все письма :)')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%92%D0%BB%D0%B0%D1%85%D0%BE%D0%B2%20%D0%B2%D0%B5%D1%81%D0%B5%D0%BB%D1%8B%D0%B9.jpg?raw=true').content)  # Влахов веселый
         mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
 \n"Будет чтение разных уровней сложности: иногда попроще, иногда полегче".''')
         bot.register_next_step_handler(mesg, quote3)
     else:
-        bot.send_message(message.chat.id, 'Ошибочка! Правильный ответ: Юрий Ландер.')
+        bot.send_message(message.chat.id, 'Ошибочка! Правильный ответ: Андриан Влахов.')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%92%D0%BB%D0%B0%D1%85%D0%BE%D0%B2%20%D0%B3%D1%80%D1%83%D1%81%D1%82%D0%BD%D1%8B%D0%B9.jpg?raw=true').content)  # Влахов грустный
         mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
 \n"Будет чтение разных уровней сложности: иногда попроще, иногда полегче".''')
         bot.register_next_step_handler(mesg, quote3)
@@ -584,6 +640,8 @@ def quote3(message):
         scores[message.from_user.id] += 1
         bot.send_message(message.chat.id,
                          'Совершенно верно! Сразу видно, что смотришь все лекции и читаешь все письма :)')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%94%D0%B0%D0%BD%D0%B8%D1%8D%D0%BB%D1%8C%20%D0%B2%D0%B5%D1%81%D0%B5%D0%BB%D1%8B%D0%B9.jpg?raw=true').content)  # Даниэль веселый
         sections += 1
         if sections != 3:
             keyboard_quotes_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
@@ -599,6 +657,8 @@ def quote3(message):
             end_message(message)
     else:
         bot.send_message(message.chat.id, 'Ошибочка! Правильный ответ: Михаил Даниэль.')
+        bot.send_photo(message.chat.id, get(
+            'https://github.com/dianaaskarova/photos_project/blob/main/%D0%94%D0%B0%D0%BD%D0%B8%D1%8D%D0%BB%D1%8C%20%D0%B3%D1%80%D1%83%D1%81%D1%82%D0%BD%D1%8B%D0%B9.jpg?raw=true').content)  # Даниэль грустный
         sections += 1
         if sections != 3:
             keyboard_quotes_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
