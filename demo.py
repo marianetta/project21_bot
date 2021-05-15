@@ -25,9 +25,9 @@ keyboard.add(key_organisation)
 def start_message(message):
     global sections, sections_lst, sections_check
     scores[message.from_user.id] = 0
-    sections_lst[message.from_user].clear()
-    sections_check[message.from_user].clear()
-    sections[message.from_user] = 0
+    sections_lst[message.from_user.id].clear()
+    sections_check[message.from_user.id].clear()
+    sections[message.from_user.id] = 0
     bot.send_photo(message.chat.id, get(
         'https://github.com/ioiimm/drafts/blob/main/bot/img/beauty.jpg?raw=true').content)
     bot.send_message(message.chat.id, '''Привет!
@@ -44,40 +44,40 @@ def start_message(message):
 @bot.message_handler(commands=['next'])
 def next_message(next_m):
     global sections, sections_lst, sections_check
-    sections[next_m.from_user] += 1
-    if sections[next_m.from_user] == 1:
-        if "Мемы" in sections_check[next_m.from_user]:
+    sections[next_m.from_user.id] += 1
+    if sections[next_m.from_user.id] == 1:
+        if "Мемы" in sections_check[next_m.from_user.id]:
             keyboard_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_next_step.row("Организация учебного процесса")
             keyboard_next_step.row("Цитаты преподавателей")
             mesg = bot.send_message(next_m.chat.id, "Выбери следующий раздел:", reply_markup=keyboard_next_step)
             bot.register_next_step_handler(mesg, meme_next_step1)
-        elif "Организация учебного процесса" in sections_check[next_m.from_user]:
+        elif "Организация учебного процесса" in sections_check[next_m.from_user.id]:
             keyboard_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_next_step.row("Мемы")
             keyboard_next_step.row("Цитаты преподавателей")
             mesg = bot.send_message(next_m.chat.id, "Выбери следующий раздел:", reply_markup=keyboard_next_step)
             bot.register_next_step_handler(mesg, org_next_step1)
-        elif "Цитаты преподавателей" in sections_check[next_m.from_user]:
+        elif "Цитаты преподавателей" in sections_check[next_m.from_user.id]:
             keyboard_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_next_step.row("Организация учебного процесса")
             keyboard_next_step.row("Мемы")
             mesg = bot.send_message(next_m.chat.id, "Выбери следующий раздел:", reply_markup=keyboard_next_step)
             bot.register_next_step_handler(mesg, quote_next_step1)
-    elif sections[next_m.from_user] == 2:
-        if "Цитаты преподавателей" not in sections_check[next_m.from_user]:
+    elif sections[next_m.from_user.id] == 2:
+        if "Цитаты преподавателей" not in sections_check[next_m.from_user.id]:
             keyboard_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_next_step.row("Цитаты преподавателей")
             mesg = bot.send_message(next_m.chat.id, "Выбери следующий раздел:",
                                     reply_markup=keyboard_next_step)
             bot.register_next_step_handler(mesg, org_next_step1)
-        elif "Мемы" not in sections_check[next_m.from_user]:
+        elif "Мемы" not in sections_check[next_m.from_user.id]:
             keyboard_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_next_step.row("Мемы")
             mesg = bot.send_message(next_m.chat.id, "Выбери следующий раздел:",
                                     reply_markup=keyboard_next_step)
             bot.register_next_step_handler(mesg, org_next_step1)
-        elif "Организация учебного процесса" not in sections_check[next_m.from_user]:
+        elif "Организация учебного процесса" not in sections_check[next_m.from_user.id]:
             keyboard_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_next_step.row("Организация учебного процесса")
             mesg = bot.send_message(next_m.chat.id, "Выбери следующий раздел:",
@@ -116,9 +116,9 @@ def end_message(end_m):
     bot.send_photo(end_m.chat.id, get(
         'https://github.com/ioiimm/drafts/blob/main/bot/img/dog.jpg?raw=true').content)
     scores[end_m.from_user.id] = 0
-    sections_lst[end_m.from_user].clear()
-    sections_check[end_m.from_user].clear()
-    sections[end_m.from_user] = 0
+    sections_lst[end_m.from_user.id].clear()
+    sections_check[end_m.from_user.id].clear()
+    sections[end_m.from_user.id] = 0
 
 
 @bot.message_handler(content_types=['text', 'photo', 'audio', 'document'])
@@ -131,7 +131,7 @@ def send_text(message):
 def callback_worker(call):
     global sections_lst
     if call.data == 'memes':
-        sections_lst[call.message.from_user].append('Мемы')
+        sections_lst[call.message.from_user.id].append('Мемы')
         bot.send_message(call.message.chat.id, '''В каждом задании этого раздела вам будет показан мем, 
 связанный с нашим потоком. Вам нужно будет выбрать один вариант ответа или ввести слово.''', reply_markup=types.ReplyKeyboardRemove())
         bot.send_photo(call.message.chat.id, get(
@@ -139,7 +139,7 @@ def callback_worker(call):
         mesg = bot.send_message(call.message.chat.id, 'Введите слово:')
         bot.register_next_step_handler(mesg, meme1)
     elif call.data == 'quotes':
-        sections_lst[call.message.from_user].append('Цитаты преподавателей')
+        sections_lst[call.message.from_user.id].append('Цитаты преподавателей')
         bot.send_message(call.message.chat.id, '''В этом разделе тебе будут показаны цитаты преподавателей. 
 Отгадай, кому они принадлежат.''', reply_markup=types.ReplyKeyboardRemove())
         mesg = bot.send_message(call.message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. '
@@ -147,7 +147,7 @@ def callback_worker(call):
 «Щенячий патруль»".''')
         bot.register_next_step_handler(mesg, quote1)
     elif call.data == 'organisation':
-        sections_lst[call.message.from_user].append('Организация учебного процесса')
+        sections_lst[call.message.from_user.id].append('Организация учебного процесса')
         bot.send_message(call.message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле. 
 Выберите верный вариант ответа или введите слово.''', reply_markup=types.ReplyKeyboardRemove())
 
@@ -165,7 +165,7 @@ def callback_worker(call):
 
 def organisation1(org1):
     global sections_check
-    sections_check[org1.from_user].append('Организация учебного процесса')
+    sections_check[org1.from_user.id].append('Организация учебного процесса')
     if org1.text == "/end":
         bot.send_message(org1.chat.id, "Заканчиваем...", reply_markup=types.ReplyKeyboardRemove())
         end_message(org1)
@@ -307,8 +307,8 @@ def organisation5(org5):
     elif org5.text == "лесбистки(-ы)’20":
         scores[org5.from_user.id] += 1
         bot.send_message(org5.chat.id, "Да!", reply_markup=types.ReplyKeyboardRemove())
-        sections[org5.from_user] += 1
-        if sections[org5.from_user] != 3:
+        sections[org5.from_user.id] += 1
+        if sections[org5.from_user.id] != 3:
             keyboard_org_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_org_next_step.row("завершить тест")
             keyboard_org_next_step.row("выбрать следующий раздел")
@@ -321,8 +321,8 @@ def organisation5(org5):
     else:
         bot.send_message(org5.chat.id, "Нет( \nправильный ответ: лесбистки(-ы)’20",
                          reply_markup=types.ReplyKeyboardRemove())
-        sections[org5.from_user] += 1
-        if sections[org5.from_user] != 3:
+        sections[org5.from_user.id] += 1
+        if sections[org5.from_user.id] != 3:
             keyboard_org_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_org_next_step.row("завершить тест")
             keyboard_org_next_step.row("выбрать следующий раздел")
@@ -342,14 +342,14 @@ def org_next_step(message):
         bot.send_message(message.chat.id, "Заканчиваем...", reply_markup=types.ReplyKeyboardRemove())
         end_message(message)
     elif message.text == "выбрать следующий раздел":
-        if sections[message.from_user] == 1:
+        if sections[message.from_user.id] == 1:
             keyboard_org_next_step1 = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_org_next_step1.row("Мемы")
             keyboard_org_next_step1.row("Цитаты преподавателей")
             mesg = bot.send_message(message.chat.id, "Выбери следующий раздел:", reply_markup=keyboard_org_next_step1)
             bot.register_next_step_handler(mesg, org_next_step1)
-        elif sections[message.from_user] == 2:
-            if "Мемы" in sections_lst[message.from_user]:
+        elif sections[message.from_user.id] == 2:
+            if "Мемы" in sections_lst[message.from_user.id]:
                 keyboard_org_next_step1 = telebot.types.ReplyKeyboardMarkup(False, True)
                 keyboard_org_next_step1.row("Цитаты преподавателей")
                 mesg = bot.send_message(message.chat.id, "Выбери следующий раздел:",
@@ -368,7 +368,7 @@ def org_next_step1(message):
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "Цитаты преподавателей":
-        sections_lst[message.from_user].append("Цитаты преподавателей")
+        sections_lst[message.from_user.id].append("Цитаты преподавателей")
         bot.send_message(message.chat.id,
                          '''В этом разделе тебе будут показаны цитаты преподавателей. Отгадай, кому они принадлежат.''')
         mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
@@ -376,7 +376,7 @@ def org_next_step1(message):
 «Щенячий патруль»".''')
         bot.register_next_step_handler(mesg, quote1)
     elif message.text == "Мемы":
-        sections_lst[message.from_user].append("Мемы")
+        sections_lst[message.from_user.id].append("Мемы")
         bot.send_message(message.chat.id, '''В каждом задании этого раздела вам будет показан мем, 
 связанный с нашим потоком. Вам нужно будет выбрать один вариант ответа или ввести слово.''')
         bot.send_photo(message.chat.id, get(
@@ -388,7 +388,7 @@ def org_next_step1(message):
 @bot.message_handler(func=lambda message: True)
 def meme1(message):
     global sections_check
-    sections_check[message.from_user].append('Мемы')
+    sections_check[message.from_user.id].append('Мемы')
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "/end":
@@ -562,8 +562,8 @@ def meme6_reply(message):
     elif message.text.lower() == "стенин":
         scores[message.from_user.id] += 1
         bot.send_message(message.chat.id, 'Отлично, это правильный ответ!')
-        sections[message.from_user] += 1
-        if sections[message.from_user] != 3:
+        sections[message.from_user.id] += 1
+        if sections[message.from_user.id] != 3:
             keyboard_memes_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_memes_next_step.row("завершить тест")
             keyboard_memes_next_step.row("выбрать следующий раздел")
@@ -573,12 +573,12 @@ def meme6_reply(message):
         else:
             bot.send_message(message.chat.id, "Вы все сделали!\nЗаканчиваем...",
                              reply_markup=types.ReplyKeyboardRemove())
-            sections[message.from_user] = 0
+            sections[message.from_user.id] = 0
             end_message(message)
     else:
         bot.send_message(message.chat.id, 'Это неверно, правильный ответ: Стенин')
-        sections[message.from_user] += 1
-        if sections[message.from_user] != 3:
+        sections[message.from_user.id] += 1
+        if sections[message.from_user.id] != 3:
             keyboard_memes_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_memes_next_step.row("завершить тест")
             keyboard_memes_next_step.row("выбрать следующий раздел")
@@ -588,7 +588,7 @@ def meme6_reply(message):
         else:
             bot.send_message(message.chat.id, "Вы все сделали!\nЗаканчиваем...",
                              reply_markup=types.ReplyKeyboardRemove())
-            sections[message.from_user] = 0
+            sections[message.from_user.id] = 0
             end_message(message)
 
 
@@ -600,14 +600,14 @@ def meme_next_step(message):
         bot.send_message(message.chat.id, "Заканчиваем...")
         end_message(message)
     elif message.text == "выбрать следующий раздел":
-        if sections[message.from_user] == 1:
+        if sections[message.from_user.id] == 1:
             keyboard_memes_next_step1 = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_memes_next_step1.row("Цитаты преподавателей")
             keyboard_memes_next_step1.row("Организация учебного процесса")
             mesg = bot.send_message(message.chat.id, "Выбери следующий раздел:", reply_markup=keyboard_memes_next_step1)
             bot.register_next_step_handler(mesg, meme_next_step1)
-        elif sections[message.from_user] == 2:
-            if "Организация учебного процесса" in sections_lst[message.from_user]:
+        elif sections[message.from_user.id] == 2:
+            if "Организация учебного процесса" in sections_lst[message.from_user.id]:
                 keyboard_memes_next_step1 = telebot.types.ReplyKeyboardMarkup(False, True)
                 keyboard_memes_next_step1.row("Цитаты преподавателей")
                 mesg = bot.send_message(message.chat.id, "Выбери следующий раздел:",
@@ -626,7 +626,7 @@ def meme_next_step1(message):
     if message.text == '/start':
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "Цитаты преподавателей":
-        sections_lst[message.from_user].append("Цитаты преподавателей")
+        sections_lst[message.from_user.id].append("Цитаты преподавателей")
         bot.send_message(message.chat.id,
                          '''В этом разделе тебе будут показаны цитаты преподавателей. Отгадай, кому они принадлежат.''')
         mesg = bot.send_message(message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. 
@@ -634,7 +634,7 @@ def meme_next_step1(message):
 «Щенячий патруль»".''')
         bot.register_next_step_handler(mesg, quote1)
     elif message.text == "Организация учебного процесса":
-        sections_lst[message.from_user].append("Организация учебного процесса")
+        sections_lst[message.from_user.id].append("Организация учебного процесса")
         bot.send_message(message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле. 
 Выберите верный вариант ответа или введите слово.''')
 
@@ -653,7 +653,7 @@ def meme_next_step1(message):
 @bot.message_handler(func=lambda message: True)
 def quote1(message):
     global sections_check
-    sections_check[message.from_user].append('Цитаты преподавателей')
+    sections_check[message.from_user.id].append('Цитаты преподавателей')
     if message.text == "/end":
         bot.send_message(message.chat.id, "Заканчиваем...")
         end_message(message)
@@ -777,8 +777,8 @@ def quote3(message):
                          'Совершенно верно! Сразу видно, что смотришь все лекции и читаешь все письма :)')
         bot.send_photo(message.chat.id, get(
             'https://github.com/dianaaskarova/photos_project/blob/main/%D0%94%D0%B0%D0%BD%D0%B8%D1%8D%D0%BB%D1%8C%20%D0%B2%D0%B5%D1%81%D0%B5%D0%BB%D1%8B%D0%B9.jpg?raw=true').content)  # Даниэль веселый
-        sections[message.from_user] += 1
-        if sections[message.from_user] != 3:
+        sections[message.from_user.id] += 1
+        if sections[message.from_user.id] != 3:
             keyboard_quotes_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_quotes_next_step.row("завершить тест")
             keyboard_quotes_next_step.row("выбрать следующий раздел")
@@ -788,15 +788,15 @@ def quote3(message):
         else:
             bot.send_message(message.chat.id, "Вы все сделали!\nЗаканчиваем...",
                              reply_markup=types.ReplyKeyboardRemove())
-            sections[message.from_user] = 0
-            sections_lst[message.from_user].clear()
+            sections[message.from_user.id] = 0
+            sections_lst[message.from_user.id].clear()
             end_message(message)
     else:
         bot.send_message(message.chat.id, 'Ошибочка! Правильный ответ: Михаил Даниэль.')
         bot.send_photo(message.chat.id, get(
             'https://github.com/dianaaskarova/photos_project/blob/main/%D0%94%D0%B0%D0%BD%D0%B8%D1%8D%D0%BB%D1%8C%20%D0%B3%D1%80%D1%83%D1%81%D1%82%D0%BD%D1%8B%D0%B9.jpg?raw=true').content)  # Даниэль грустный
-        sections[message.from_user] += 1
-        if sections[message.from_user] != 3:
+        sections[message.from_user.id] += 1
+        if sections[message.from_user.id] != 3:
             keyboard_quotes_next_step = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_quotes_next_step.row("завершить тест")
             keyboard_quotes_next_step.row("выбрать следующий раздел")
@@ -806,8 +806,8 @@ def quote3(message):
         else:
             bot.send_message(message.chat.id, "Вы все сделали!\nЗаканчиваем...",
                              reply_markup=types.ReplyKeyboardRemove())
-            sections[message.from_user] = 0
-            sections_lst[message.from_user].clear()
+            sections[message.from_user.id] = 0
+            sections_lst[message.from_user.id].clear()
             end_message(message)
 
 
@@ -817,19 +817,19 @@ def quote_next_step(message):
         bot.send_message(message.chat.id, "Возвращаюсь в начало...", reply_markup=keyboard)
     elif message.text == "завершить тест":
         bot.send_message(message.chat.id, "Заканчиваем...", reply_markup=types.ReplyKeyboardRemove())
-        sections_lst[message.from_user].clear()
-        sections[message.from_user] = 0
+        sections_lst[message.from_user.id].clear()
+        sections[message.from_user.id] = 0
         end_message(message)
     elif message.text == "выбрать следующий раздел":
-        if sections[message.from_user] == 1:
+        if sections[message.from_user.id] == 1:
             keyboard_quotes_next_step1 = telebot.types.ReplyKeyboardMarkup(False, True)
             keyboard_quotes_next_step1.row("Мемы")
             keyboard_quotes_next_step1.row("Организация учебного процесса")
             mesg = bot.send_message(message.chat.id, "Выбери следующий раздел:",
                                     reply_markup=keyboard_quotes_next_step1)
             bot.register_next_step_handler(mesg, quote_next_step1)
-        elif sections[message.from_user] == 2:
-            if "Организация учебного процесса" in sections_lst[message.from_user]:
+        elif sections[message.from_user.id] == 2:
+            if "Организация учебного процесса" in sections_lst[message.from_user.id]:
                 keyboard_quotes_next_step1 = telebot.types.ReplyKeyboardMarkup(False, True)
                 keyboard_quotes_next_step1.row("Мемы")
                 mesg = bot.send_message(message.chat.id, "Выбери следующий раздел:",
@@ -851,7 +851,7 @@ def quote_next_step1(message):
         bot.send_message(message.chat.id, "Заканчиваем...", reply_markup=types.ReplyKeyboardRemove())
         end_message(message)
     elif message.text == "Мемы":
-        sections_lst[message.from_user].append("Мемы")
+        sections_lst[message.from_user.id].append("Мемы")
         bot.send_message(message.chat.id, '''В каждом задании этого раздела вам будет показан мем,
 связанный с нашим потоком. Вам нужно будет выбрать один вариант ответа или ввести слово.''')
         bot.send_photo(message.chat.id, get(
@@ -859,7 +859,7 @@ def quote_next_step1(message):
         mesg = bot.send_message(message.chat.id, 'Введите слово:')
         bot.register_next_step_handler(mesg, meme1)
     elif message.text == "Организация учебного процесса":
-        sections_lst[message.from_user].append("Организация учебного процесса")
+        sections_lst[message.from_user.id].append("Организация учебного процесса")
         bot.send_message(message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле.
 Выберите верный вариант ответа или введите слово.''')
 
