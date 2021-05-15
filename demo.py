@@ -131,7 +131,7 @@ def send_text(message):
 def callback_worker(call):
     global sections_lst
     if call.data == 'memes':
-        sections_lst[call.from_user].append('Мемы')
+        sections_lst[call.message.from_user].append('Мемы')
         bot.send_message(call.message.chat.id, '''В каждом задании этого раздела вам будет показан мем, 
 связанный с нашим потоком. Вам нужно будет выбрать один вариант ответа или ввести слово.''', reply_markup=types.ReplyKeyboardRemove())
         bot.send_photo(call.message.chat.id, get(
@@ -139,7 +139,7 @@ def callback_worker(call):
         mesg = bot.send_message(call.message.chat.id, 'Введите слово:')
         bot.register_next_step_handler(mesg, meme1)
     elif call.data == 'quotes':
-        sections_lst[call.from_user].append('Цитаты преподавателей')
+        sections_lst[call.message.from_user].append('Цитаты преподавателей')
         bot.send_message(call.message.chat.id, '''В этом разделе тебе будут показаны цитаты преподавателей. 
 Отгадай, кому они принадлежат.''', reply_markup=types.ReplyKeyboardRemove())
         mesg = bot.send_message(call.message.chat.id, '''Чья цитата? Введи сначала имя, потом фамилию преподавателя. '
@@ -147,7 +147,7 @@ def callback_worker(call):
 «Щенячий патруль»".''')
         bot.register_next_step_handler(mesg, quote1)
     elif call.data == 'organisation':
-        sections_lst[call.from_user].append('Организация учебного процесса')
+        sections_lst[call.message.from_user].append('Организация учебного процесса')
         bot.send_message(call.message.chat.id, '''В этом разделе будут вопросы, связанные с учебным процессом на фикле. 
 Выберите верный вариант ответа или введите слово.''', reply_markup=types.ReplyKeyboardRemove())
 
